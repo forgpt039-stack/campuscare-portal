@@ -1,0 +1,17 @@
+{
+  "name": "campuscare-portal",
+  "version": "1.0.0",
+  "description": "CampusCare - Smart College Maintenance & Grievance Portal",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "campuscare",
+    "portal",
+    "maintenance",
+    "grievance"
+  ],
+  "author": "",
+  "license": "ISC"
+}

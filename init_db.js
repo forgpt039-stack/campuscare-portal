@@ -1,0 +1,363 @@
+const fs = require('fs');
+const path = require('path');
+
+const dataDir = 'c:/Users/its mee u know/Downloads/rahul dt/data';
+const uploadsDir = 'c:/Users/its mee u know/Downloads/rahul dt/public/uploads';
+
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+const initialData = {
+  complaints: [
+    {
+      id: "CMP-2026-101",
+      studentName: "Aarav",
+      studentId: "N240001",
+      department: "Computer Science & Engineering",
+      studentClass: "3rd Year - Section B",
+      category: "IT & Audio-Visual",
+      title: "Classroom projector black screen and HDMI signal failure",
+      description: "During the AI & Machine Learning lecture, the ceiling projector suddenly displayed an HDMI No Signal error. Lamp indicator is flashing red and fan is making grinding noises.",
+      location: "A3 Block > 2nd Floor > Room 204",
+      block: "A3 Academic Block",
+      floor: "2nd Floor",
+      room: "Room 204",
+      priority: "High",
+      status: "In Progress",
+      mediaType: "image",
+      mediaUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80",
+      submittedAt: "2026-11-05T09:30:00.000Z",
+      assignedDepartment: "IT & Audio-Visual",
+      assignedStaff: "Rajesh Verma",
+      assignedStaffPhone: "+91 98765 43212",
+      adminRemarks: "Technician dispatched with spare HDMI controller and optical lamp module. Resolution expected by 2 PM.",
+      upvotes: 4,
+      timeline: [
+        { time: "2026-11-05T09:30:00.000Z", action: "Complaint Submitted", actor: "Aarav (Student)", note: "Submitted via CampusCare Student Portal." },
+        { time: "2026-11-05T10:15:00.000Z", action: "Assigned to Staff", actor: "M. Satyanarayana (Admin)", note: "Assigned to Rajesh Verma (IT & Audio-Visual)." },
+        { time: "2026-11-05T10:45:00.000Z", action: "Status Changed", actor: "M. Satyanarayana (Admin)", note: "Status updated to In Progress. Replacement lamp ordered." }
+      ]
+    },
+    {
+      id: "CMP-2026-102",
+      studentName: "Priya Sharma",
+      studentId: "N240002",
+      department: "Electronics & Communication",
+      studentClass: "2nd Year - Section A",
+      category: "Electrical",
+      title: "Exposed live wiring and sparking switchboard near lab workbench",
+      description: "Switchboard #4 in VLSI Lab has severe sparking when oscilloscopes are connected. Burnt plastic smell detected. Poses severe electrocution hazard to students.",
+      location: "B2 Engineering Block > 1st Floor > VLSI Lab 102",
+      block: "B2 Engineering Block",
+      floor: "1st Floor",
+      room: "VLSI Lab 102",
+      priority: "Critical",
+      status: "In Progress",
+      mediaType: "image",
+      mediaUrl: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=800&q=80",
+      submittedAt: "2026-11-06T08:15:00.000Z",
+      assignedDepartment: "Electrical",
+      assignedStaff: "Vikram Kumar",
+      assignedStaffPhone: "+91 98765 43210",
+      adminRemarks: "URGENT SAFETY HAZARD. Main circuit breaker isolated immediately. Senior electrician on site.",
+      upvotes: 12,
+      timeline: [
+        { time: "2026-11-06T08:15:00.000Z", action: "Complaint Submitted", actor: "Priya Sharma (Student)", note: "Critical safety hazard reported." },
+        { time: "2026-11-06T08:20:00.000Z", action: "Critical Priority Flagged", actor: "System / Admin", note: "Auto-escalated to Electrical Safety Dept." },
+        { time: "2026-11-06T08:25:00.000Z", action: "Assigned & In Progress", actor: "M. Satyanarayana (Admin)", note: "Assigned to Vikram Kumar with highest priority." }
+      ]
+    },
+    {
+      id: "CMP-2026-103",
+      studentName: "Aarav",
+      studentId: "N240001",
+      department: "Computer Science & Engineering",
+      studentClass: "3rd Year - Section B",
+      category: "Plumbing",
+      title: "Continuous overhead tank overflow and severe corridor water leakage",
+      description: "Washroom pipeline on 3rd floor is leaking water into the main student corridor. Floor is slippery and water is seeping into the server storage closet.",
+      location: "Hostel Block C > 3rd Floor > Washroom Wing West",
+      block: "Hostel Block C",
+      floor: "3rd Floor",
+      room: "Washroom Wing West",
+      priority: "High",
+      status: "Pending",
+      mediaType: "image",
+      mediaUrl: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      submittedAt: "2026-11-06T09:45:00.000Z",
+      assignedDepartment: null,
+      assignedStaff: null,
+      assignedStaffPhone: null,
+      adminRemarks: "Awaiting inspection by Plumbing maintenance team.",
+      upvotes: 7,
+      timeline: [
+        { time: "2026-11-06T09:45:00.000Z", action: "Complaint Submitted", actor: "Aarav (Student)", note: "Submitted via CampusCare Student Portal." }
+      ]
+    },
+    {
+      id: "CMP-2026-104",
+      studentName: "Rahul Varma",
+      studentId: "N240003",
+      department: "Mechanical Engineering",
+      studentClass: "4th Year - Section A",
+      category: "Civil Infrastructure",
+      title: "Broken window latch and shattered glass pane in Workshop Hall",
+      description: "High winds caused the workshop bay window to slam shut, breaking the latch and cracking the safety glass. Requires pane replacement and latch welding.",
+      location: "Mech Block > Ground Floor > Machine Workshop 04",
+      block: "Mech Workshop Block",
+      floor: "Ground Floor",
+      room: "Machine Workshop 04",
+      priority: "Medium",
+      status: "Resolved",
+      mediaType: "image",
+      mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+      submittedAt: "2026-11-04T11:20:00.000Z",
+      assignedDepartment: "Civil Infrastructure",
+      assignedStaff: "Anand Rao",
+      assignedStaffPhone: "+91 98765 43213",
+      adminRemarks: "New laminated glass panel fitted and reinforced steel latch installed. Verified and sealed.",
+      upvotes: 3,
+      timeline: [
+        { time: "2026-11-04T11:20:00.000Z", action: "Complaint Submitted", actor: "Rahul Varma (Student)", note: "Submitted report with photo." },
+        { time: "2026-11-04T13:00:00.000Z", action: "Assigned to Staff", actor: "M. Satyanarayana (Admin)", note: "Assigned to Anand Rao (Civil)." },
+        { time: "2026-11-05T14:30:00.000Z", action: "Work Completed", actor: "Anand Rao (Staff)", note: "Glass replacement completed." },
+        { time: "2026-11-05T16:00:00.000Z", action: "Status Changed to Resolved", actor: "M. Satyanarayana (Admin)", note: "Verified and closed with student confirmation." }
+      ]
+    },
+    {
+      id: "CMP-2026-105",
+      studentName: "Sneha Reddy",
+      studentId: "N240004",
+      department: "Civil Engineering",
+      studentClass: "3rd Year - Section C",
+      category: "Hostel & Living",
+      title: "Water cooler RO filter breakdown and strange water taste",
+      description: "The drinking water cooler in Hostel Block B is dispensing cloudy water with bad odor. Filter indicator light has turned amber. Students have to buy bottled water.",
+      location: "Hostel Block B > 2nd Floor > Drinking Water Station",
+      block: "Hostel Block B",
+      floor: "2nd Floor",
+      room: "Drinking Water Station",
+      priority: "High",
+      status: "In Progress",
+      mediaType: "image",
+      mediaUrl: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=800&q=80",
+      submittedAt: "2026-11-05T14:10:00.000Z",
+      assignedDepartment: "Plumbing",
+      assignedStaff: "Suresh Babu",
+      assignedStaffPhone: "+91 98765 43211",
+      adminRemarks: "Water filters being replaced with commercial carbon & RO membrane cartridges today.",
+      upvotes: 18,
+      timeline: [
+        { time: "2026-11-05T14:10:00.000Z", action: "Complaint Submitted", actor: "Sneha Reddy (Student)", note: "Submitted report." },
+        { time: "2026-11-05T15:00:00.000Z", action: "Assigned to Staff", actor: "M. Satyanarayana (Admin)", note: "Assigned to Suresh Babu." }
+      ]
+    },
+    {
+      id: "CMP-2026-106",
+      studentName: "Ananya Patel",
+      studentId: "N240005",
+      department: "Chemical Engineering",
+      studentClass: "1st Year - Section A",
+      category: "Cleanliness & Sanitation",
+      title: "Request to repaint hostel corridor walls with custom graffiti",
+      description: "Requesting college maintenance to paint the corridor walls with student club murals and custom artwork.",
+      location: "Hostel Block A > 1st Floor > Corridor",
+      block: "Hostel Block A",
+      floor: "1st Floor",
+      room: "Corridor",
+      priority: "Low",
+      status: "Rejected",
+      mediaType: null,
+      mediaUrl: "",
+      submittedAt: "2026-11-03T16:00:00.000Z",
+      assignedDepartment: "Civil Infrastructure",
+      assignedStaff: null,
+      assignedStaffPhone: null,
+      adminRemarks: "Institutional policy prohibits non-standard graffiti or painting on hostel residential walls. Request rejected as per campus regulations.",
+      upvotes: 0,
+      timeline: [
+        { time: "2026-11-03T16:00:00.000Z", action: "Complaint Submitted", actor: "Ananya Patel (Student)", note: "Submitted request." },
+        { time: "2026-11-04T09:00:00.000Z", action: "Complaint Rejected", actor: "M. Satyanarayana (Admin)", note: "Non-compliant with campus maintenance policies." }
+      ]
+    }
+  ],
+  staff: [
+    {
+      id: "STF-01",
+      name: "Vikram Kumar",
+      department: "Electrical",
+      specialization: "Senior Electrician & HT Safety",
+      phone: "+91 98765 43210",
+      email: "vikram.elec@rgukt.ac.in",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80",
+      status: "Available",
+      activeComplaints: 1
+    },
+    {
+      id: "STF-02",
+      name: "Suresh Babu",
+      department: "Plumbing",
+      specialization: "Master Plumber & Pipeline Diagnostics",
+      phone: "+91 98765 43211",
+      email: "suresh.plumb@rgukt.ac.in",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&h=200&q=80",
+      status: "Available",
+      activeComplaints: 1
+    },
+    {
+      id: "STF-03",
+      name: "Rajesh Verma",
+      department: "IT & Audio-Visual",
+      specialization: "Smart Classroom & AV Systems Engineer",
+      phone: "+91 98765 43212",
+      email: "rajesh.av@rgukt.ac.in",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80",
+      status: "Busy",
+      activeComplaints: 1
+    },
+    {
+      id: "STF-04",
+      name: "Anand Rao",
+      department: "Civil Infrastructure",
+      specialization: "Carpentry, Glassworks & Civil Masonry",
+      phone: "+91 98765 43213",
+      email: "anand.civil@rgukt.ac.in",
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&h=200&q=80",
+      status: "Available",
+      activeComplaints: 0
+    },
+    {
+      id: "STF-05",
+      name: "K. Ramesh",
+      department: "Housekeeping & Sanitation",
+      specialization: "Sanitation Supervisor & Waste Management",
+      phone: "+91 98765 43214",
+      email: "ramesh.sanit@rgukt.ac.in",
+      avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&h=200&q=80",
+      status: "Available",
+      activeComplaints: 0
+    },
+    {
+      id: "STF-06",
+      name: "Sandeep Reddy",
+      department: "HVAC & Air Conditioning",
+      specialization: "Central HVAC & Duct Maintenance",
+      phone: "+91 98765 43215",
+      email: "sandeep.hvac@rgukt.ac.in",
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&h=200&q=80",
+      status: "Available",
+      activeComplaints: 0
+    }
+  ],
+  students: [
+    {
+      id: "N240001",
+      name: "Aarav",
+      department: "Computer Science & Engineering",
+      studentClass: "3rd Year - Section B",
+      email: "aarav@rgukt.ac.in",
+      phone: "+91 98765 11001",
+      room: "A3-204",
+      totalComplaints: 2,
+      activeComplaints: 2,
+      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&h=200&q=80"
+    },
+    {
+      id: "N240002",
+      name: "Priya Sharma",
+      department: "Electronics & Communication",
+      studentClass: "2nd Year - Section A",
+      email: "priya@rgukt.ac.in",
+      phone: "+91 98765 11002",
+      room: "B2-102",
+      totalComplaints: 1,
+      activeComplaints: 1,
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&h=200&q=80"
+    },
+    {
+      id: "N240003",
+      name: "Rahul Varma",
+      department: "Mechanical Engineering",
+      studentClass: "4th Year - Section A",
+      email: "rahul@rgukt.ac.in",
+      phone: "+91 98765 11003",
+      room: "M1-04",
+      totalComplaints: 1,
+      activeComplaints: 0,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&h=200&q=80"
+    },
+    {
+      id: "N240004",
+      name: "Sneha Reddy",
+      department: "Civil Engineering",
+      studentClass: "3rd Year - Section C",
+      email: "sneha@rgukt.ac.in",
+      phone: "+91 98765 11004",
+      room: "C3-12",
+      totalComplaints: 1,
+      activeComplaints: 1,
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&h=200&q=80"
+    },
+    {
+      id: "N240005",
+      name: "Ananya Patel",
+      department: "Chemical Engineering",
+      studentClass: "1st Year - Section A",
+      email: "ananya@rgukt.ac.in",
+      phone: "+91 98765 11005",
+      room: "A1-08",
+      totalComplaints: 1,
+      activeComplaints: 0,
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&h=200&q=80"
+    }
+  ],
+  notifications: [
+    {
+      id: "NOTIF-101",
+      targetRole: "admin",
+      studentId: "N240002",
+      complaintId: "CMP-2026-102",
+      title: "🚨 Critical Hazard Reported",
+      message: "Exposed live wiring and sparking switchboard reported in B2 Engineering Block.",
+      timestamp: "2026-11-06T08:15:00.000Z",
+      read: false,
+      type: "critical_alert"
+    },
+    {
+      id: "NOTIF-102",
+      targetRole: "admin",
+      studentId: "N240001",
+      complaintId: "CMP-2026-103",
+      title: "New Student Complaint",
+      message: "Aarav submitted a Plumbing complaint: Continuous overhead tank overflow.",
+      timestamp: "2026-11-06T09:45:00.000Z",
+      read: false,
+      type: "new_complaint"
+    },
+    {
+      id: "NOTIF-103",
+      targetRole: "student",
+      studentId: "N240001",
+      complaintId: "CMP-2026-101",
+      title: "Technician Assigned",
+      message: "Your complaint CMP-2026-101 has been assigned to Rajesh Verma (IT & Audio-Visual).",
+      timestamp: "2026-11-05T10:15:00.000Z",
+      read: false,
+      type: "staff_assigned"
+    },
+    {
+      id: "NOTIF-104",
+      targetRole: "student",
+      studentId: "N240001",
+      complaintId: "CMP-2026-101",
+      title: "Work In Progress",
+      message: "Status updated to In Progress. Replacement lamp ordered.",
+      timestamp: "2026-11-05T10:45:00.000Z",
+      read: false,
+      type: "status_change"
+    }
+  ]
+};
+
+fs.writeFileSync(path.join(dataDir, 'db.json'), JSON.stringify(initialData, null, 2), 'utf8');
+console.log('Successfully generated initial db.json database!');
